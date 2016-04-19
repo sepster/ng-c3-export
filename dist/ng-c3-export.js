@@ -91,8 +91,9 @@
           var canvasComputed = StyleFactory.exportStyles(canvasEl, emptyCanvasEl, svgCopyEl, emptySvgEl);
 
           exportSvgToCanvas(svgCopyEl, canvasComputed);
+          var imageData = canvasToImage(canvasComputed, config.backgroundColor);
 
-          exportCanvasToPng(chartEl.find('.savePNG'), canvasComputed, config.exportedFileName);
+          exportCanvasToPng(chartEl.find('.savePNG'), canvasComputed, config.exportedFileName, imageData);
 
           canvasEl.remove();
           emptyCanvasEl.remove();
@@ -104,8 +105,31 @@
         canvg(canvas, new XMLSerializer().serializeToString(svg));
       }
 
-      function exportCanvasToPng(linkEl,canvasEl, filename) {
-        linkEl.attr('href', canvasEl.toDataURL('png'))
+      function canvasToImage(canvas, backgroundColor) {
+        var w = canvas.width;
+        var h = canvas.height;
+        var context = canvas.getContext("2d");
+        var data;
+        if (backgroundColor)
+        {
+          data = context.getImageData(0, 0, w, h);
+          var compositeOperation = context.globalCompositeOperation;
+          context.globalCompositeOperation = "destination-over";
+          context.fillStyle = backgroundColor;
+          context.fillRect(0, 0, w, h);
+        }
+        var imageData = canvas.toDataURL("png");
+        if (backgroundColor)
+        {
+          context.clearRect (0, 0, w, h);
+          context.putImageData(data, 0, 0);
+          context.globalCompositeOperation = compositeOperation;
+        }
+        return imageData;
+      }
+
+      function exportCanvasToPng(linkEl,canvasEl, filename, imageData) {
+        linkEl.attr('href', imageData)
           .attr('download', function () {
             return filename + '.png';
           });
@@ -171,3 +195,4 @@
       }
     });
 })();
+
