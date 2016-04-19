@@ -6,7 +6,11 @@ app.run(function () {
   console.log("ngC3Export module test initiated");
 });
 
-app.controller("ChartController", function () {
+app.controller("ChartController", function ($scope, $compile) {
+  $scope.exportCombinationChart = function() {
+    $compile($('<div export-chart chart-element="#my-combination-chart"></div>'))($scope);
+  }
+
   c3.generate({
     bindto: "#my-line-chart",
     data: {
