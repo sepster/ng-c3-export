@@ -189,7 +189,7 @@
           key = cSSStyleDeclarationComputed[i];
           value = cSSStyleDeclarationComputed.getPropertyValue(key);
           if (value !== emptySvgDeclarationComputed.getPropertyValue(key)) {
-            if (key == 'visibility' && value == 'hidden') {
+            if ((key == 'visibility' && value == 'hidden') || (key == 'opacity' && value == '0')) {
               computedStyleStr += 'display: none;';
             } else {
               computedStyleStr += key + ":" + value + ";";
