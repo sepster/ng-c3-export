@@ -84,7 +84,7 @@
           canvasEl.height = chartEl.height();
           emptyCanvasEl.height = chartEl.height();
 
-          var container = angular.element('<div style="display: none;"></div>');
+          var container = angular.element('<div class="c3" style="display: none;"></div>');
           element.append(container);
           container.append(canvasEl);
           container.append(emptyCanvasEl);
