@@ -41,11 +41,11 @@
             scope.config.backgroundColor = attrs.backgroundColor;
           }
 
-          if (attrs.chartElement && $('.savePNG').length) {
+          if (attrs.chartElement && $('.js-savePNG').length) {
             $element = $(attrs.chartElement);
             ExportService.createChartImages($element, scope.config);
           } else {
-            var linkEl = angular.element('<a class="savePNG"><i class="fa fa-download"></i></a>');
+            var linkEl = angular.element('<a class="savePNG js-savePNG"><i class="fa fa-download"></i></a>');
             $element.append(linkEl);
             linkEl.on('click', function () {
               ExportService.createChartImages($element, scope.config);
@@ -98,7 +98,7 @@
           exportSvgToCanvas(svgCopyEl, canvasComputed);
           var imageData = canvasToImage(canvasComputed, config.backgroundColor);
 
-          exportCanvasToPng($('.savePNG'), canvasComputed, config.exportedFileName, imageData);
+          exportCanvasToPng($('.js-savePNG'), canvasComputed, config.exportedFileName, imageData);
 
           canvasEl.remove();
           emptyCanvasEl.remove();
